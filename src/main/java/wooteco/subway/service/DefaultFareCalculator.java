@@ -16,11 +16,10 @@ public class DefaultFareCalculator implements FareCalculator {
     @Override
     public int calculateFare(int distance, int extraFare) {
         int fare = DEFAULT_FARE + extraFare;
-        if (TEN_KILOMETER < distance && distance <= FIFTY_KILOMETER) {
-            fare += calculateOverFare(distance - TEN_KILOMETER, DISTANCE_BY_POLICY_FOR_TEN_KILOMETER);
+        if (distance > TEN_KILOMETER) {
+            fare += calculateOverFare(Math.min(distance - TEN_KILOMETER, FIFTY_KILOMETER - TEN_KILOMETER), DISTANCE_BY_POLICY_FOR_TEN_KILOMETER);
         }
         if (distance > FIFTY_KILOMETER) {
-            fare += calculateOverFare(FIFTY_KILOMETER - TEN_KILOMETER, DISTANCE_BY_POLICY_FOR_TEN_KILOMETER);
             fare += calculateOverFare(distance - FIFTY_KILOMETER, DISTANCE_BY_POLICY_FOR_FIFTY_KILOMETER);
         }
         return fare;
